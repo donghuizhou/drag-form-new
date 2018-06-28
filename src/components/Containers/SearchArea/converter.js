@@ -28,6 +28,9 @@ function SearchAreaConverter (purpose) {
         if (this.props.purpose === 'drag') {
           element = connectDragSource(<div className="list-item">搜索区域</div>);
         }
+        if (this.props.purpose === 'drop') {
+      
+        }
         return element;
       }
     }
@@ -35,22 +38,4 @@ function SearchAreaConverter (purpose) {
   } 
 }
 
-// class SearchArea extends Component {
-//   constructor (props) {
-//     super(props);
-//   }
-//   render () {
-//     var element = null;
-//     const { connectDragSource } = this.props;
-//     purpose = this.props.purpose;
-//     if (purpose == 'drag') {
-//       // element = connectDragSource(<div className="list-item">搜索区域</div>);
-//           return connectDragSource(<div className="list-item">搜索区域</div>)
-//     }
-//     // return DragSource(ItemTypes.DRAGFORM, searchDragSource, dragCollect)(element);
-//     return connectDragSource(<div className="list-item">搜索区域</div>)
-//   }
-// }
-
 export default SearchAreaConverter;
-// export default DragSource(ItemTypes.DRAGFORM, searchDragSource, dragCollect)(SearchArea);
