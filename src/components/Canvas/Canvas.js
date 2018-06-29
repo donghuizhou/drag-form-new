@@ -9,9 +9,11 @@ import SearchAreaTarget from '../Containers/SearchArea/SearchAreaTarget';
 import ButtonAreaTarget from '../Containers/ButtonArea/ButtonAreaTarget';
 // 表单组件的实例
 import TableEntity from '../Containers/TableArea/TableAreaEntity';
-import ButtonEntity from '../FormComponents/ButtonEntity';
+import ButtonEntity from '../FormComponents/Button/ButtonEntity';
 
 const FormItem = Form.Item;
+
+// let unsubscribe = store.subscribe((fun) => (fun()))
 
 const canvasTarget = {
   drop (props, monitor, component) {
@@ -85,7 +87,7 @@ class Canvas extends Component {
     if (24 % this.state.columns !== 0) { message.error('列数必须能被24整除'); return; }
     this.setState({gridModalVisible: false});
     let formJson = store.getState().formJson;
-    let tmp = { type: 'SearchArea', attrs: { columns: this.state.columns, rows: this.state.columns }, children: [] }
+    let tmp = { type: 'SearchArea', attrs: { columns: this.state.columns, rows: this.state.rows }, children: [] }
     formJson.push(tmp);
     store.dispatch(updateFormJson(formJson));
     this.setState({formJson: formJson});
@@ -95,8 +97,8 @@ class Canvas extends Component {
   }
   stringBecomeArray = (num) => {
     let arr = []
-    for (let i = 1; i <= num; i++) {
-      arr[i] = i
+    for (let i = 0; i < num; i++) {
+      arr[i] = i + 1
     }
     return arr;
   }
@@ -106,7 +108,7 @@ class Canvas extends Component {
         <ButtonAreaTarget id={'ButtonArea-' + index} key={index}>
           {component.children.map((child, pos) => (
             child.type === 'Button' ?
-              <ButtonEntity id={'Button-' + pos} key={pos} /> : null
+              <ButtonEntity name="按钮吧" id={'Button-' + pos} key={pos} /> : null
           ))}
         </ButtonAreaTarget> : 
         component.type === 'TableArea' ? <TableEntity id={'TableArea-' + index} key={index} /> : 

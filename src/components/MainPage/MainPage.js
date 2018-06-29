@@ -7,11 +7,17 @@ import Canvas from '../Canvas/Canvas';
 import SideList from '../SideList/SideList';
 import store from '../../redux/store';
 
+// store.subscribe(() => 
+//   console.log('subscribe:', store.getState().formJson)
+// )
+
 class MainPage extends Component {
   showSomething = () => {
-    // console.log(store.getState());
+    console.log(store.getState().formJson);
   }
   render() {
+    // let formJson = store.getState().formJson;
+    console.log('mainPage')
     return (
       <section className="layout">
         <section className="layout-top">

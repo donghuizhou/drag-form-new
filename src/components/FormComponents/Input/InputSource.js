@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
-import { ItemTypes } from '../config/config'
+import { ItemTypes } from '../../config/config'
 
-const buttonSource = {
+const dragSource = {
   beginDrag (props, monitor, component) {
     return {
       name: 'Button'
@@ -10,20 +10,20 @@ const buttonSource = {
   }
 }
 
-function collect (connect, monitor) {
+function dragCollect (connect, monitor) {
   return {
     connectDragSource: connect.dragSource()
   };
 }
 
 
-class ButtonSource extends Component {
+class InputSource extends Component {
   render () {
     const { connectDragSource } = this.props;
     return connectDragSource(
-      <div className="list-item">按钮</div>
+      <div className="list-item">输入框</div>
     );
   }
 }
 
-export default DragSource(ItemTypes.DRAGFORM, buttonSource, collect)(ButtonSource);
+export default DragSource(ItemTypes.DRAGFORM, dragSource, dragCollect)(InputSource);
