@@ -5,7 +5,7 @@ import { ItemTypes } from '../../config/config';
 const dragSource = {
   beginDrag (props, monitor, component) {
     return {
-      name: 'SearchAreaSource'
+      name: 'SearchArea'
     }
   }
 };

@@ -5,7 +5,7 @@ import { ItemTypes } from '../../config/config'
 const dragSource = {
   beginDrag (props, monitor, component) {
     return {
-      name: 'Button'
+      name: 'Input'
     };
   }
 }

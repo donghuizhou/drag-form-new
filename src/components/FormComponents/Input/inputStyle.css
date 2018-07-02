@@ -1,9 +1,9 @@
-.buttonWrap {
+.inputWrap {
   position: relative;
   display: inline-block;
-  margin: 10px 0 0 10px;
+  width: 100%;
 }
-.buttonMask {
+.inputMask {
   position: absolute;
   top: 0;
   right: 0;
@@ -11,7 +11,3 @@
   left: 0;
   z-index: 100;
 }
-
-/* .buttonMask:hover {
-  border: 1px solid red;
-} */

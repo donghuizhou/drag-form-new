@@ -17,7 +17,6 @@ class MainPage extends Component {
   }
   render() {
     // let formJson = store.getState().formJson;
-    console.log('mainPage')
     return (
       <section className="layout">
         <section className="layout-top">
