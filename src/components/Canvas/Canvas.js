@@ -22,8 +22,6 @@ const componentsMap = {
 
 const FormItem = Form.Item;
 
-// let unsubscribe = store.subscribe((fun) => (fun()))
-
 const canvasTarget = {
   drop (props, monitor, component) {
     const { name } = monitor.getItem();
@@ -34,8 +32,6 @@ const canvasTarget = {
 function collect (connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget()
-    // isOver: monitor.isOver(),
-    // canDrop: monitor.canDrop()
   }
 }
 
@@ -43,7 +39,7 @@ class Canvas extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      formJson: [],
+      formJson: null,
       rows: '',
       columns: '',
       gridModalVisible: false
@@ -65,7 +61,6 @@ class Canvas extends Component {
         tmp = { type: name, attrs: {}, children: [] };
         formJson.push(tmp);
         store.dispatch(updateFormJson(formJson));
-        this.setState({formJson: formJson});
         break;
       case 'TableArea':
         for (let i in formJson) {
@@ -74,15 +69,29 @@ class Canvas extends Component {
         tmp = { type: name, attrs: {}, children: [] };
         formJson.push(tmp);
         store.dispatch(updateFormJson(formJson));
-        this.setState({formJson: formJson});
         break;  
       case 'Button':
-        tmp = { type: name, attrs: {}, children: [] };
         formJson.forEach((item) => {
-          if (item.type === 'ButtonArea') { item.children.push(tmp); }
+          if (item.type === 'ButtonArea') {
+            let length = item.children.length;
+            if (length > 0) {
+              length = ++item.children[length - 1]['attrs']['id'].split('-')[2]
+            }
+            tmp = { 
+              type: name, 
+              attrs: {
+                id: `buttonArea-button-${length}`,
+                value: '按钮',
+                type: 'primary',
+                size: 'default',
+                clickFunName: 'clickFun'
+              },
+              children: [] 
+            };
+            item.children.push(tmp); 
+          }
         });
         store.dispatch(updateFormJson(formJson));
-        this.setState({formJson: formJson});
         break;  
       case 'Input':
         tmp = { type: name, attrs: {}, children: [] };
@@ -91,9 +100,9 @@ class Canvas extends Component {
           if (item.type === 'SearchArea' && item.attrs.rows * item.attrs.columns !== item.children.length) { item.children.push(tmp); }
         });
         store.dispatch(updateFormJson(formJson));
-        this.setState({formJson: formJson});
         break;
     }
+    this.renderFormJson();
   }
   rowsChange = (e) => {
     this.setState({rows: e.target.value});
@@ -108,7 +117,7 @@ class Canvas extends Component {
     let tmp = { type: 'SearchArea', attrs: { columns: this.state.columns, rows: this.state.rows }, children: [] }
     formJson.push(tmp);
     store.dispatch(updateFormJson(formJson));
-    this.setState({formJson: formJson});
+    this.renderFormJson();
   }
   handleCancel = () => {
     this.setState({gridModalVisible: false});
@@ -120,13 +129,13 @@ class Canvas extends Component {
     }
     return arr;
   }
-  renderFormJson = () => {
-    let doms = this.state.formJson.map((component, comIndex) => (
+  renderFormJson = (formJson) => {
+    let doms = store.getState().formJson.map((component, comIndex) => (
       component.type === 'ButtonArea' ? 
         <ButtonAreaTarget id={'ButtonArea-' + comIndex} key={comIndex}>
           {component.children.map((child, pos) => (
             child.type === 'Button' ?
-              <ButtonEntity name="按钮吧" id={'Button-' + pos} key={pos} /> : null
+              <ButtonEntity {...child.attrs} key={pos} /> : null
           ))}
         </ButtonAreaTarget> : 
         component.type === 'TableArea' ? <TableEntity id={'TableArea-' + comIndex} key={comIndex} /> : 
@@ -147,7 +156,7 @@ class Canvas extends Component {
           ))}
         </SearchAreaTarget> : null 
     ));
-    return doms;
+    this.setState({formJson: doms});
   }
   render () {
     const { connectDropTarget } = this.props;
@@ -156,7 +165,7 @@ class Canvas extends Component {
       wrapperCol: { span: 8 }
     };
     return connectDropTarget(
-      <div style={{ display: 'relative', flex: 1, margin: '0 15px 0 0', border: '1px dashed red', overflowY: 'auto' }}>
+      <div style={{ display: 'relative', flex: 1, margin: '0 15px 0 0', border: '1px dashed #BEBEBE', overflowY: 'auto' }}>
         <Modal title="设置栅格布局" visible={this.state.gridModalVisible} onOk={this.handleOk} onCancel={this.handleCancel} cancelText={'取消'} okText={'确定'} >
           <Form layout="inline">
             <FormItem {...formItemLayout} label="行">
@@ -167,7 +176,7 @@ class Canvas extends Component {
             </FormItem>
           </Form>
         </Modal>
-        {this.renderFormJson()}
+        {this.state.formJson}
       </div>
     );
   }

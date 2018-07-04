@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
-import { updateFormJsonReducer, updateCurHoverItemReducer } from './reducer';
+import { updateFormJsonReducer, updateCurActiveItemReducer, updateTimeStampReducer } from './reducer';
 
 const allReducers = {
   formJson: updateFormJsonReducer,
-  curHoverItem: updateCurHoverItemReducer
+  curActiveItem: updateCurActiveItemReducer,
+  timeStamp: updateTimeStampReducer
 };
 
 const rootReducer = combineReducers(allReducers);

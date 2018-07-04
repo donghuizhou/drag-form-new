@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs } from 'antd';
+import ConfigList from '../ConfigList/ConfigList';
 // 容器组件
 import SearchAreaSource from '../Containers/SearchArea/SearchAreaSource';
 import ButtonAreaSource from '../Containers/ButtonArea/ButtonAreaSource';
@@ -26,7 +27,9 @@ class SideList extends Component {
               <ButtonSource />
             </section>
           </TabPane>
-          <TabPane tab="组件配置" key="component-config">组件配置</TabPane>
+          <TabPane tab="组件配置" key="component-config">
+            <ConfigList />
+          </TabPane>
         </Tabs>
       </div>
     );

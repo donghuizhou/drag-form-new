@@ -1,8 +1,9 @@
-import { UPDATE_FORM_JSON, UPDATE_CUR_HOVER_ITEM } from './actions';
+import { UPDATE_FORM_JSON, UPDATE_CUR_ACTIVE_ITEM, UPDATE_TIME_STAMP } from './actions';
 
 const initState = {
   formJson: [],
-  curHoverItem: {}
+  curActiveItem: {},
+  timeStamp: 1200150129
 }
 
 export function updateFormJsonReducer (state = initState, action) {
@@ -14,11 +15,20 @@ export function updateFormJsonReducer (state = initState, action) {
   }
 }
 
-export function updateCurHoverItemReducer (state = initState, action) {
+export function updateCurActiveItemReducer (state = initState, action) {
   switch (action.type) {
-    case UPDATE_CUR_HOVER_ITEM:
+    case UPDATE_CUR_ACTIVE_ITEM:
       return action.payload;
     default: 
       return {};  
+  }
+}
+
+export function updateTimeStampReducer (state = initState, action) {
+  switch (action.type) {
+    case UPDATE_TIME_STAMP:
+      return action.payload;
+    default:
+      return 'default timestamp'
   }
 }

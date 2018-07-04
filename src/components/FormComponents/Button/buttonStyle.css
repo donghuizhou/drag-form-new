@@ -2,6 +2,7 @@
   position: relative;
   display: inline-block;
   margin: 10px 0 0 10px;
+  padding: 5px;
 }
 .buttonMask {
   position: absolute;
@@ -11,7 +12,9 @@
   left: 0;
   z-index: 100;
 }
-
+.buttonMask:hover {
+  border: 1px dashed red;
+}
 /* .buttonMask:hover {
   border: 1px solid red;
 } */

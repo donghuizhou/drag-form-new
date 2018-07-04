@@ -1,5 +1,6 @@
 export const UPDATE_FORM_JSON = 'UPDATE_FORM_JSON';
-export const UPDATE_CUR_HOVER_ITEM = 'UPDATE_CUR_HOVER_ITEM';
+export const UPDATE_CUR_ACTIVE_ITEM = 'UPDATE_CUR_ACTIVE_ITEM';
+export const UPDATE_TIME_STAMP = 'UPDATE_TIME_STAMP';
 
 export function updateFormJson (item) {
   return {
@@ -8,9 +9,16 @@ export function updateFormJson (item) {
   }
 }
 
-export function updateCurHoverItem (item) {
+export function updateCurActiveItem (item) {
   return {
-    type: UPDATE_CUR_HOVER_ITEM,
+    type: UPDATE_CUR_ACTIVE_ITEM,
+    payload: item
+  }
+}
+
+export function updateTimeStamp (item) {
+  return {
+    type: UPDATE_TIME_STAMP,
     payload: item
   }
 }
