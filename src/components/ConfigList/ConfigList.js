@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import store from '../../redux/store';
+import { updateFormJson } from '../../redux/actions';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 
 const FormItem = Form.Item;
@@ -10,6 +12,15 @@ class ConfigList extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('received values from form: ', values);
+        let formJson = store.getState().formJson;
+        formJson.forEach((container) => {
+          container.children.forEach((child) => {
+            if (child.attrs.id === store.getState().curActiveItem.id) {
+              child.attrs = { ...child.attrs, ...values };
+            }
+          });
+        });
+        store.dispatch(updateFormJson(formJson));
       }
     })
   }
@@ -28,7 +39,8 @@ class ConfigList extends Component {
           {getFieldDecorator('value', {
             rules: [{
               required: true, message: '请输入名称'
-            }]
+            }],
+            initialValue: store.getState().curActiveItem.value ? store.getState().curActiveItem.value : ''
           })(
             <Input size="small" />
           )}
@@ -37,7 +49,8 @@ class ConfigList extends Component {
           {getFieldDecorator('type', {
             rules: [{
               required: true, message: '请选择类型'
-            }]
+            }],
+            initialValue: store.getState().curActiveItem.type ? store.getState().curActiveItem.type : ''
           })(
             <Select size="small">
               <Option value="primary">primary</Option>
@@ -50,7 +63,8 @@ class ConfigList extends Component {
           {getFieldDecorator('size', {
             rules: [{
               required: true, message: '请选择尺寸'
-            }]
+            }],
+            initialValue: store.getState().curActiveItem.size ? store.getState().curActiveItem.size : ''
           })(
             <Select size="small">
               <Option value="default">default</Option>
@@ -63,18 +77,10 @@ class ConfigList extends Component {
           {getFieldDecorator('clickFunName', {
             rules: [{
               required: true, message: '请输入点击事件名称'
-            }]
+            }],
+            initialValue: store.getState().curActiveItem.clickFunName ? store.getState().curActiveItem.clickFunName : ''
           })(
-            <Row>
-              <Col span={18}>
-                <Input size="small" />
-              </Col>
-              <Col offset={2} span={4}>
-                <Tooltip title="编码">
-                  <Button type="primary" icon="code-o"/>
-                </Tooltip>
-              </Col>
-            </Row>
+            <Input size="small" />
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
@@ -89,3 +95,14 @@ const ConfigListForm = Form.create()(ConfigList);
 
 export default ConfigListForm;
  
+
+{/* <Row>
+<Col span={18}>
+  <Input size="small" />
+</Col>
+<Col offset={2} span={4}>
+  <Tooltip title="编码">
+    <Button type="primary" icon="code-o"/>
+  </Tooltip>
+</Col>
+</Row> */}

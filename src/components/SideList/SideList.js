@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Tabs } from 'antd';
 import ConfigList from '../ConfigList/ConfigList';
+import store from '../../redux/store'
+import { updateCurActiveTab } from '../../redux/actions';
 // 容器组件
 import SearchAreaSource from '../Containers/SearchArea/SearchAreaSource';
 import ButtonAreaSource from '../Containers/ButtonArea/ButtonAreaSource';
@@ -12,11 +14,16 @@ import InputSource from '../FormComponents/Input/InputSource';
 const TabPane = Tabs.TabPane;
 
 class SideList extends Component {
+  tabChange = (key) => {
+    if (key === 'component-list') {
+      store.dispatch(updateCurActiveTab(key))
+    }
+  }
   render () {
     return (
       <div style={{ width: '300px', border: '1px solid #eee', overflowY: 'auto' }}>
-        <Tabs defaultActiveKey="component-list">
-          <TabPane tab="组件列表" key="component-list">
+        <Tabs onChange={this.tabChange} activeKey={store.getState().curActiveTab}>
+          <TabPane tab="组件列表" key={"component-list"}>
             <section style={{ border: '1px solid #eee', borderWidth: '1px 0 0 0' }}>
               <SearchAreaSource />
               <ButtonAreaSource />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
+import { connect } from 'react-redux';
 import { ItemTypes } from '../config/config'
 import { Input, Modal, Form, Row, Col, message } from 'antd';
 import store from '../../redux/store';
@@ -39,7 +40,7 @@ class Canvas extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      formJson: null,
+      formJson: store.getState().formJson,
       rows: '',
       columns: '',
       gridModalVisible: false
@@ -81,10 +82,10 @@ class Canvas extends Component {
               type: name, 
               attrs: {
                 id: `buttonArea-button-${length}`,
-                value: '按钮',
-                type: 'primary',
-                size: 'default',
-                clickFunName: 'clickFun'
+                value: ['按钮', 'btn'][parseInt(Math.random()*2, 10)],
+                type: ['primary', 'dashed', 'danger'][parseInt(Math.random()*3, 10)],
+                size: ['default', 'small', 'large'][parseInt(Math.random()*3, 10)],
+                clickFunName: ['clickFun', 'changeName'][parseInt(Math.random()*2, 10)]
               },
               children: [] 
             };
@@ -102,7 +103,7 @@ class Canvas extends Component {
         store.dispatch(updateFormJson(formJson));
         break;
     }
-    this.renderFormJson();
+    // this.renderFormJson();
   }
   rowsChange = (e) => {
     this.setState({rows: e.target.value});
@@ -117,7 +118,7 @@ class Canvas extends Component {
     let tmp = { type: 'SearchArea', attrs: { columns: this.state.columns, rows: this.state.rows }, children: [] }
     formJson.push(tmp);
     store.dispatch(updateFormJson(formJson));
-    this.renderFormJson();
+    // this.renderFormJson();
   }
   handleCancel = () => {
     this.setState({gridModalVisible: false});
@@ -154,7 +155,7 @@ class Canvas extends Component {
               })}
             </Row>
           ))}
-        </SearchAreaTarget> : null 
+        </SearchAreaTarget> : null
     ));
     this.setState({formJson: doms});
   }
@@ -176,7 +177,35 @@ class Canvas extends Component {
             </FormItem>
           </Form>
         </Modal>
-        {this.state.formJson}
+        {/* {this.state.formJson} */}
+        {store.getState().curActiveTab}
+        {store.getState().something[0] ? store.getState().something[0].ts : null}
+        {store.getState().formJson.map((component, comIndex) => (
+          component.type === 'ButtonArea' ? 
+            <ButtonAreaTarget id={'ButtonArea-' + comIndex} key={comIndex}>
+              {component.children.map((child, pos) => (
+                child.type === 'Button' ?
+                  <ButtonEntity {...child.attrs} key={pos} /> : null
+              ))}
+            </ButtonAreaTarget> : 
+            component.type === 'TableArea' ? <TableEntity id={'TableArea-' + comIndex} key={comIndex} /> : 
+            component.type === 'SearchArea' ? 
+            <SearchAreaTarget id={'SearchArea' + comIndex} key={comIndex}>
+              {this.stringBecomeArray(component.attrs.rows).map((row, rowIndex) => (
+                <Row key={rowIndex}>
+                  {this.stringBecomeArray(component.attrs.columns).map((column, colIndex) => {
+                    const index = component.attrs.columns * rowIndex + colIndex;
+                    const FormElement = component.children[index] ? componentsMap[component.children[index].type] : null;
+                    return <Col span={24 / component.attrs.columns} 
+                      style={{background: (row + column) % 2 === 0 ? '#f0f0f0' : '#E6E6FA', height: '40px'}}
+                      key={colIndex}>
+                        {FormElement ? <FormElement /> : null}
+                      </Col>
+                  })}
+                </Row>
+              ))}
+            </SearchAreaTarget> : null
+        ))}
       </div>
     );
   }

@@ -1,34 +1,70 @@
-import { UPDATE_FORM_JSON, UPDATE_CUR_ACTIVE_ITEM, UPDATE_TIME_STAMP } from './actions';
+import { UPDATE_FORM_JSON, 
+         UPDATE_CUR_ACTIVE_ITEM, 
+         UPDATE_CUR_ACTIVE_TAB,
+         UPDATE_SOMETHING } from './actions';
 
 const initState = {
   formJson: [],
   curActiveItem: {},
-  timeStamp: 1200150129
+  curActiveTab: 'component-list',
+  something: []
 }
 
-export function updateFormJsonReducer (state = initState, action) {
+export function updateStateReducer (state =initState, action) {
   switch (action.type) {
     case UPDATE_FORM_JSON:
-      return action.payload;
-    default:
-      return [];
-  }
-}
-
-export function updateCurActiveItemReducer (state = initState, action) {
-  switch (action.type) {
+      return Object.assign({}, state, {
+        formJson: action.payload
+      });
     case UPDATE_CUR_ACTIVE_ITEM:
-      return action.payload;
-    default: 
-      return {};  
+      return Object.assign({}, state, {
+        curActiveItem: action.payload
+      });
+    case UPDATE_CUR_ACTIVE_TAB:
+      return Object.assign({}, state, {
+        curActiveTab: action.payload
+      });
+    case UPDATE_SOMETHING:
+      return Object.assign({}, state, {
+        something: action.payload
+      });  
+    default:
+      return state;
   }
 }
 
-export function updateTimeStampReducer (state = initState, action) {
-  switch (action.type) {
-    case UPDATE_TIME_STAMP:
-      return action.payload;
-    default:
-      return 'default timestamp'
-  }
-}
+// export function updateFormJsonReducer (state = initState, action) {
+//   switch (action.type) {
+//     case UPDATE_FORM_JSON:
+//       // return Object.assign({}, state, {
+//       //   formJson: action.payload
+//       // })
+//       return action.payload;
+//     default:
+//       return state.formJson;
+//   }
+// }
+
+// export function updateCurActiveItemReducer (state = initState, action) {
+//   switch (action.type) {
+//     case UPDATE_CUR_ACTIVE_ITEM:
+//       // return Object.assign({}, state, {
+//       //   curActiveItem: action.payload
+//       // })
+//       return state.curActiveItem;
+//     default: 
+//       return state.curActiveItem;  
+//   }
+// }
+
+// export function updateCurActiveTabReducer (state = initState, action) {
+//   switch (action.type) {
+//     case UPDATE_CUR_ACTIVE_TAB:
+//       // return Object.assign({}, state, {
+//       //   curActiveTab: action.payload
+//       // })
+//       return action.payload;
+//     default:
+//       return state.curActiveTab;
+//   }
+// }

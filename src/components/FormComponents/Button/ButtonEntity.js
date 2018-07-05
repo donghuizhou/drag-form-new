@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Button } from 'antd';
 import './buttonStyle.css';
 import store from '../../../redux/store';
-import { updateCurActiveItem } from '../../../redux/actions';
+import { updateCurActiveItem, updateCurActiveTab } from '../../../redux/actions';
 
 class ButtonEntity extends Component {
   buttonWrapClick = (e) => {
     let attributes = {...this.props};
+    store.dispatch(updateCurActiveTab('component-config'));
     store.dispatch(updateCurActiveItem(attributes));
   }
   render () {
