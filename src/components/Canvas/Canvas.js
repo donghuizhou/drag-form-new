@@ -5,21 +5,22 @@ import { ItemTypes } from '../config/config'
 import { Input, Modal, Form, Row, Col, message } from 'antd';
 import store from '../../redux/store';
 import { updateFormJson } from '../../redux/actions';
+import InnerView from './InnerView';
 // 容器组件的Target
-import SearchAreaTarget from '../Containers/SearchArea/SearchAreaTarget';
-import ButtonAreaTarget from '../Containers/ButtonArea/ButtonAreaTarget';
-// 表单组件的实例
-import TableEntity from '../Containers/TableArea/TableAreaEntity';
-import ButtonEntity from '../FormComponents/Button/ButtonEntity';
-import InputEntity from '../FormComponents/Input/InputEntity';
+// import SearchAreaTarget from '../Containers/SearchArea/SearchAreaTarget';
+// import ButtonAreaTarget from '../Containers/ButtonArea/ButtonAreaTarget';
+// // 表单组件的实例
+// import TableEntity from '../Containers/TableArea/TableAreaEntity';
+// import ButtonEntity from '../FormComponents/Button/ButtonEntity';
+// import InputEntity from '../FormComponents/Input/InputEntity';
 
-const componentsMap = {
-  ButtonArea: ButtonAreaTarget,
-  SearchArea: SearchAreaTarget,
-  TableArea: TableEntity,
-  Button: ButtonEntity,
-  Input: InputEntity
-}
+// const componentsMap = {
+//   ButtonArea: ButtonAreaTarget,
+//   SearchArea: SearchAreaTarget,
+//   TableArea: TableEntity,
+//   Button: ButtonEntity,
+//   Input: InputEntity
+// }
 
 const FormItem = Form.Item;
 
@@ -40,14 +41,14 @@ class Canvas extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      formJson: store.getState().formJson,
+      // formJson: [].concat(store.getState().formJson),
       rows: '',
       columns: '',
       gridModalVisible: false
     }
   }
   receiveDropName = (name) => {
-    let tmp = {}, formJson = store.getState().formJson;
+    let tmp = {}, formJson = [].concat(store.getState().formJson);
     switch (name) {
       case 'SearchArea':
         for (let i in formJson) {
@@ -114,7 +115,7 @@ class Canvas extends Component {
   handleOk = () => {
     if (24 % this.state.columns !== 0) { message.error('列数必须能被24整除'); return; }
     this.setState({gridModalVisible: false});
-    let formJson = store.getState().formJson;
+    let formJson = [].concat(store.getState().formJson);
     let tmp = { type: 'SearchArea', attrs: { columns: this.state.columns, rows: this.state.rows }, children: [] }
     formJson.push(tmp);
     store.dispatch(updateFormJson(formJson));
@@ -123,42 +124,35 @@ class Canvas extends Component {
   handleCancel = () => {
     this.setState({gridModalVisible: false});
   }
-  stringBecomeArray = (num) => {
-    let arr = []
-    for (let i = 0; i < num; i++) {
-      arr[i] = i + 1
-    }
-    return arr;
-  }
-  renderFormJson = (formJson) => {
-    let doms = store.getState().formJson.map((component, comIndex) => (
-      component.type === 'ButtonArea' ? 
-        <ButtonAreaTarget id={'ButtonArea-' + comIndex} key={comIndex}>
-          {component.children.map((child, pos) => (
-            child.type === 'Button' ?
-              <ButtonEntity {...child.attrs} key={pos} /> : null
-          ))}
-        </ButtonAreaTarget> : 
-        component.type === 'TableArea' ? <TableEntity id={'TableArea-' + comIndex} key={comIndex} /> : 
-        component.type === 'SearchArea' ? 
-        <SearchAreaTarget id={'SearchArea' + comIndex} key={comIndex}>
-          {this.stringBecomeArray(component.attrs.rows).map((row, rowIndex) => (
-            <Row key={rowIndex}>
-              {this.stringBecomeArray(component.attrs.columns).map((column, colIndex) => {
-                const index = component.attrs.columns * rowIndex + colIndex;
-                const FormElement = component.children[index] ? componentsMap[component.children[index].type] : null;
-                return <Col span={24 / component.attrs.columns} 
-                  style={{background: (row + column) % 2 === 0 ? '#f0f0f0' : '#E6E6FA', height: '40px'}}
-                  key={colIndex}>
-                    {FormElement ? <FormElement /> : null}
-                  </Col>
-              })}
-            </Row>
-          ))}
-        </SearchAreaTarget> : null
-    ));
-    this.setState({formJson: doms});
-  }
+  // renderFormJson = (formJson) => {
+  //   let doms = store.getState().formJson.map((component, comIndex) => (
+  //     component.type === 'ButtonArea' ? 
+  //       <ButtonAreaTarget id={'ButtonArea-' + comIndex} key={comIndex}>
+  //         {component.children.map((child, pos) => (
+  //           child.type === 'Button' ?
+  //             <ButtonEntity {...child.attrs} key={pos} /> : null
+  //         ))}
+  //       </ButtonAreaTarget> : 
+  //       component.type === 'TableArea' ? <TableEntity id={'TableArea-' + comIndex} key={comIndex} /> : 
+  //       component.type === 'SearchArea' ? 
+  //       <SearchAreaTarget id={'SearchArea' + comIndex} key={comIndex}>
+  //         {this.stringBecomeArray(component.attrs.rows).map((row, rowIndex) => (
+  //           <Row key={rowIndex}>
+  //             {this.stringBecomeArray(component.attrs.columns).map((column, colIndex) => {
+  //               const index = component.attrs.columns * rowIndex + colIndex;
+  //               const FormElement = component.children[index] ? componentsMap[component.children[index].type] : null;
+  //               return <Col span={24 / component.attrs.columns} 
+  //                 style={{background: (row + column) % 2 === 0 ? '#f0f0f0' : '#E6E6FA', height: '40px'}}
+  //                 key={colIndex}>
+  //                   {FormElement ? <FormElement /> : null}
+  //                 </Col>
+  //             })}
+  //           </Row>
+  //         ))}
+  //       </SearchAreaTarget> : null
+  //   ));
+  //   this.setState({formJson: doms});
+  // }
   render () {
     const { connectDropTarget } = this.props;
     const formItemLayout = {
@@ -177,35 +171,7 @@ class Canvas extends Component {
             </FormItem>
           </Form>
         </Modal>
-        {/* {this.state.formJson} */}
-        {store.getState().curActiveTab}
-        {store.getState().something[0] ? store.getState().something[0].ts : null}
-        {store.getState().formJson.map((component, comIndex) => (
-          component.type === 'ButtonArea' ? 
-            <ButtonAreaTarget id={'ButtonArea-' + comIndex} key={comIndex}>
-              {component.children.map((child, pos) => (
-                child.type === 'Button' ?
-                  <ButtonEntity {...child.attrs} key={pos} /> : null
-              ))}
-            </ButtonAreaTarget> : 
-            component.type === 'TableArea' ? <TableEntity id={'TableArea-' + comIndex} key={comIndex} /> : 
-            component.type === 'SearchArea' ? 
-            <SearchAreaTarget id={'SearchArea' + comIndex} key={comIndex}>
-              {this.stringBecomeArray(component.attrs.rows).map((row, rowIndex) => (
-                <Row key={rowIndex}>
-                  {this.stringBecomeArray(component.attrs.columns).map((column, colIndex) => {
-                    const index = component.attrs.columns * rowIndex + colIndex;
-                    const FormElement = component.children[index] ? componentsMap[component.children[index].type] : null;
-                    return <Col span={24 / component.attrs.columns} 
-                      style={{background: (row + column) % 2 === 0 ? '#f0f0f0' : '#E6E6FA', height: '40px'}}
-                      key={colIndex}>
-                        {FormElement ? <FormElement /> : null}
-                      </Col>
-                  })}
-                </Row>
-              ))}
-            </SearchAreaTarget> : null
-        ))}
+        <InnerView />
       </div>
     );
   }

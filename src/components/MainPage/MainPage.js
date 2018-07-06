@@ -13,19 +13,19 @@ class MainPage extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      timestamp: store.getState().curActiveTab
+      // timestamp: store.getState().curActiveTab
     }
   }
   onPreview =() => {
-    let curActiveTab = store.getState().curActiveTab === 'component-list' ? 'component-config' : 'component-list';
-    store.dispatch(updateCurActiveTab(curActiveTab))
+    // let curActiveTab = store.getState().curActiveTab === 'component-list' ? 'component-config' : 'component-list';
+    // store.dispatch(updateCurActiveTab(curActiveTab))
   }
   onCode = () => {
-    let arr = [
-      { name: 'last', ts: Date.parse(new Date()) / 1000 },
-      { name: 'now', ts: Date.parse(new Date()) / 1000 + 222 }
-    ];
-    store.dispatch(updateSomething(arr))
+    // let arr = [
+    //   { name: 'last', ts: Date.parse(new Date()) / 1000 },
+    //   { name: 'now', ts: Date.parse(new Date()) / 1000 + 222 }
+    // ];
+    // store.dispatch(updateSomething(arr))
   }
   onSave = () => {
     console.log(store.getState());
@@ -34,7 +34,7 @@ class MainPage extends Component {
     return (
       <section className="layout">
         <section className="layout-top">
-          <Canvas formJson={store.getState().formJson} ts={store.getState().curActiveTab} />
+          <Canvas />
           <SideList />
         </section>
         <footer className="layout-bottom">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import store from '../../redux/store';
-import { updateFormJson } from '../../redux/actions';
+import { updateFormJson, updateCurActiveTab } from '../../redux/actions';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 
 const FormItem = Form.Item;
@@ -12,7 +12,7 @@ class ConfigList extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('received values from form: ', values);
-        let formJson = store.getState().formJson;
+        let formJson = [].concat(store.getState().formJson);
         formJson.forEach((container) => {
           container.children.forEach((child) => {
             if (child.attrs.id === store.getState().curActiveItem.id) {
@@ -21,6 +21,7 @@ class ConfigList extends Component {
           });
         });
         store.dispatch(updateFormJson(formJson));
+        store.dispatch(updateCurActiveTab('component-list'))
       }
     })
   }
@@ -95,7 +96,6 @@ const ConfigListForm = Form.create()(ConfigList);
 
 export default ConfigListForm;
  
-
 {/* <Row>
 <Col span={18}>
   <Input size="small" />

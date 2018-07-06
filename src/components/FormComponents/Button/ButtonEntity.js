@@ -9,6 +9,7 @@ class ButtonEntity extends Component {
     let attributes = {...this.props};
     store.dispatch(updateCurActiveTab('component-config'));
     store.dispatch(updateCurActiveItem(attributes));
+    // console.log(store.getState().curActiveItem)
   }
   render () {
     return (
