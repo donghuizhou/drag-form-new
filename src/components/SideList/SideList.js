@@ -10,8 +10,11 @@ import TableAreaSource from '../Containers/TableArea/TableAreaSource';
 // 表单组件
 import ButtonSource from '../FormComponents/Button/ButtonSource';
 import InputSource from '../FormComponents/Input/InputSource';
+import SelectSource from '../FormComponents/Select/SelectSource';
 
 const TabPane = Tabs.TabPane;
+
+let prevId = store.getState().curActiveItem.id || 'null'
 
 class SideList extends Component {
   tabChange = (key) => {
@@ -20,6 +23,8 @@ class SideList extends Component {
     }
   }
   render () {
+    let rerender = false
+
     return (
       <div style={{ width: '300px', border: '1px solid #eee', overflowY: 'auto' }}>
         <Tabs onChange={this.tabChange} activeKey={store.getState().curActiveTab}>
@@ -31,6 +36,7 @@ class SideList extends Component {
             </section>
             <section style={{ border: '1px solid #eee', borderWidth: '1px 0 0 0', margin: '18px 0 0 0' }}>
               <InputSource />
+              <SelectSource />
               <ButtonSource />
             </section>
           </TabPane>

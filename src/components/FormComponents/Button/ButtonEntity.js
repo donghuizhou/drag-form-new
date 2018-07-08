@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'antd';
-import './buttonStyle.css';
+import '../formElement.css';
 import store from '../../../redux/store';
 import { updateCurActiveItem, updateCurActiveTab } from '../../../redux/actions';
 
@@ -9,7 +9,6 @@ class ButtonEntity extends Component {
     let attributes = {...this.props};
     store.dispatch(updateCurActiveTab('component-config'));
     store.dispatch(updateCurActiveItem(attributes));
-    // console.log(store.getState().curActiveItem)
   }
   render () {
     return (

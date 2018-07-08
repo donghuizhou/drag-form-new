@@ -15,6 +15,17 @@
 .buttonMask:hover {
   border: 1px dashed red;
 }
-/* .buttonMask:hover {
-  border: 1px solid red;
-} */
+
+.inputWrap {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.inputMask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}

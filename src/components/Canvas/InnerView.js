@@ -9,13 +9,15 @@ import ButtonAreaTarget from '../Containers/ButtonArea/ButtonAreaTarget';
 import TableEntity from '../Containers/TableArea/TableAreaEntity';
 import ButtonEntity from '../FormComponents/Button/ButtonEntity';
 import InputEntity from '../FormComponents/Input/InputEntity';
+import SelectEntity from '../FormComponents/Select/SelectEntity';
 
 const componentsMap = {
   ButtonArea: ButtonAreaTarget,
   SearchArea: SearchAreaTarget,
   TableArea: TableEntity,
   Button: ButtonEntity,
-  Input: InputEntity
+  Input: InputEntity,
+  Select: SelectEntity
 }
 
 class InnerViewBefore extends Component {
@@ -37,7 +39,7 @@ class InnerViewBefore extends Component {
                   <ButtonEntity {...child.attrs} key={pos} /> : null
               ))}
             </ButtonAreaTarget> : 
-            component.type === 'TableArea' ? <TableEntity id={'TableArea-' + comIndex} key={comIndex} /> : 
+            component.type === 'TableArea' ? <TableEntity {...component.attrs}  key={comIndex} /> : 
             component.type === 'SearchArea' ? 
             <SearchAreaTarget id={'SearchArea' + comIndex} key={comIndex}>
               {this.stringBecomeArray(component.attrs.rows).map((row, rowIndex) => (
@@ -48,7 +50,7 @@ class InnerViewBefore extends Component {
                     return <Col span={24 / component.attrs.columns} 
                       style={{background: (row + column) % 2 === 0 ? '#f0f0f0' : '#E6E6FA', height: '40px'}}
                       key={colIndex}>
-                        {FormElement ? <FormElement /> : null}
+                        {FormElement ? <FormElement {...component.children[index].attrs} /> : null}
                       </Col>
                   })}
                 </Row>
