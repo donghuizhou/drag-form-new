@@ -17,6 +17,7 @@ class ButtonEntity extends Component {
           id={this.props.id}
           type={this.props.type}
           size={this.props.size}
+          onClick={this.props.clickFunName} 
         >
           {this.props.value}
         </Button>

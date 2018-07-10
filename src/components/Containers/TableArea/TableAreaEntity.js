@@ -11,13 +11,17 @@ class TableAreaEntity extends Component {
     store.dispatch(updateCurActiveItem(attributes));
   }
   render () {
-    let columns = [
-      { title: 'name', dataIndex: 'name', key: 'name' },
-      { title: 'age', dataIndex: 'age', key: 'age' },
-      { title: 'city', dataIndex: 'city', key: 'city' }
-    ];
+    let columns = [];
+    this.props.columns.split('-').forEach((item, index) => {
+      let column = {
+        title: item,
+        key: index + ''
+      }
+      console.log(column)
+      columns.push(column)
+    })
     return (
-      <div onClick={this.tableWrapClick} class="tableWrap">
+      <div onClick={this.tableWrapClick} className="tableWrap">
         <Table id={this.props.id} columns={columns}></Table>
       </div>
     );
@@ -25,30 +29,3 @@ class TableAreaEntity extends Component {
 }
 
 export default TableAreaEntity;
-
-[
-  {
-    type: 'SearchArea',
-    attrs: {},
-    children: [
-      { type: 'input', attrs: {}, children: '' },
-      { type: 'input', attrs: {}, children: '' },
-      { type: 'input', attrs: {}, children: '' },
-      { type: 'select', attrs: {}, children: '' }
-    ]
-  },
-  {
-    type: 'ButtonArea',
-    attrs: {},
-    children: [
-      { type: 'button', attrs: {}, children: '' },
-      { type: 'button', attrs: {}, children: '' },
-      { type: 'button', attrs: {}, children: '' }
-    ]
-  },
-  {
-    type: 'TableArea',
-    attrs: {},
-    children: ''
-  }
-]

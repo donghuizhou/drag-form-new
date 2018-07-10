@@ -7,6 +7,16 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 
+function updateJson (id, newAttr, obj) {
+  obj.forEach(item => {
+    if(item.attrs.id === id) {
+      item.attrs = Object.assign({}, item.attrs, newAttr)
+    } else {
+      updateJson(id, newAttr, item.children)
+    }
+  })
+}
+
 class ConfigList extends Component {
   constructor(props) {
     super(props)
@@ -25,15 +35,7 @@ class ConfigList extends Component {
   }
   handleSubmit = () => {
     let formJson = [].concat(store.getState().formJson);
-    formJson.forEach(container => {
-      if (container.type === 'ButtonArea') {
-        container.children.forEach(child => {
-          if (child.attrs.id === this.state.formValues.id) {
-            child.attrs = Object.assign({}, child.attrs, this.state.formValues)
-          }
-        })
-      }
-    })
+    updateJson(this.state.formValues.id, this.state.formValues, formJson)
     store.dispatch(updateFormJson(formJson));
   }
   shouldComponentUpdate () {
@@ -86,9 +88,6 @@ class ConfigList extends Component {
         <FormItem {...formItemLayout} label="label" style={{ marginBottom: '5px' }}>
           <Input size="small" value={this.state.formValues.label} onChange={this.handleChange.bind(this, 'label', 'input')} />
         </FormItem>
-        <FormItem {...formItemLayout} label="值" style={{ marginBottom: '5px' }}>
-          <Input size="small" value={this.state.formValues.value} onChange={this.handleChange.bind(this, 'value', 'input')} />
-        </FormItem>
         <FormItem {...tailFormItemLayout}>
           <Button type="primary" onClick={this.handleSubmit}>保存</Button>
         </FormItem>
@@ -106,38 +105,8 @@ class ConfigList extends Component {
     )
     let tableCfg = (
       <Form>
-        <FormItem {...formItemLayout} label="是否显示边框" style={{ marginBottom: '5px' }}>
-          <RadioGroup value="Y">
-            <Radio value="Y">是</Radio>
-            <Radio value="N">否</Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem {...formItemLayout} label="表格标题" style={{ marginBottom: '5px' }}>
-          <Input size="small" value=""/>
-        </FormItem>
-        <FormItem {...formItemLayout} label="加载动画" style={{ marginBottom: '5px' }}>
-          <RadioGroup value="Y">
-            <Radio value="Y">是</Radio>
-            <Radio value="N">否</Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem {...formItemLayout} label="是否显示表头" style={{ marginBottom: '5px' }}>
-          <RadioGroup value="Y">
-            <Radio value="Y">是</Radio>
-            <Radio value="N">否</Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem {...formItemLayout} label="表头名称" style={{ marginBottom: '5px' }}>
-          <Input size="small" value=""/>
-        </FormItem>
-        <FormItem {...formItemLayout} label="一页数据量" style={{ marginBottom: '5px' }}>
-          <Input size="small" value=""/>
-        </FormItem>
-        <FormItem {...formItemLayout} label="是否分页" style={{ marginBottom: '5px' }}>
-          <RadioGroup value="Y">
-            <Radio value="Y">是</Radio>
-            <Radio value="N">否</Radio>
-          </RadioGroup>
+        <FormItem {...formItemLayout} label="列名(用-隔开)" style={{ marginBottom: '5px' }}>
+          <Input size="small" value={this.state.formValues.columns} onChange={this.handleChange.bind(this, 'columns', 'input')} />
         </FormItem>
         <FormItem {...tailFormItemLayout}>
           <Button type="primary" onClick={this.handleSubmit}>保存</Button>

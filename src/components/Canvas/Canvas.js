@@ -56,7 +56,8 @@ class Canvas extends Component {
           type: name,
           attrs: {
             id: `tableArea`,
-            formType: 'table'
+            formType: 'table',
+            columns: 'column1-column2-column3-column4'
           }, children: [] };
         formJson.push(tmp);
         store.dispatch(updateFormJson(formJson));
@@ -98,7 +99,7 @@ class Canvas extends Component {
               attrs: {
                 id: `searchArea-input-${length}`,
                 formType: 'input',
-                value: 'value',
+                value: '',
                 label: 'label'
               },
               children: [] 

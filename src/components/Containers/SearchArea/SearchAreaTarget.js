@@ -20,7 +20,7 @@ const dropCollect = (connect, monitor) => ({
   canDrop: monitor.canDrop()
 });
 
-class ButtonAreaTarget extends Component {
+class SearchAreaTarget extends Component {
   render () {
     const { connectDropTarget } = this.props;
     return connectDropTarget(
@@ -31,4 +31,4 @@ class ButtonAreaTarget extends Component {
   }
 }
 
-export default DropTarget(ItemTypes.DRAGFORM, dropTarget, dropCollect)(ButtonAreaTarget);
+export default DropTarget(ItemTypes.DRAGFORM, dropTarget, dropCollect)(SearchAreaTarget);
