@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import './mainPage.css';
 import Canvas from '../Canvas/Canvas';
 import SideList from '../SideList/SideList';
+import Code from '../Code/Code'
 import store from '../../redux/store';
 import { updateSomething, updateCurActiveTab } from '../../redux/actions';
 import { connect } from 'react-redux';
@@ -13,22 +14,22 @@ class MainPage extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      // timestamp: store.getState().curActiveTab
+      visible: false
     }
   }
-  onPreview =() => {
-    // let curActiveTab = store.getState().curActiveTab === 'component-list' ? 'component-config' : 'component-list';
-    // store.dispatch(updateCurActiveTab(curActiveTab))
+  onPreview = () => {
   }
   onCode = () => {
-    // let arr = [
-    //   { name: 'last', ts: Date.parse(new Date()) / 1000 },
-    //   { name: 'now', ts: Date.parse(new Date()) / 1000 + 222 }
-    // ];
-    // store.dispatch(updateSomething(arr))
+    this.setState({visible: true})
   }
   onSave = () => {
     console.log(store.getState());
+  }
+  handleOk = () => {
+    this.setState({visible: false})
+  }
+  handleCancel = () => {
+    this.setState({visible: false})
   }
   render() {
     return (
@@ -38,13 +39,14 @@ class MainPage extends Component {
           <SideList />
         </section>
         <footer className="layout-bottom">
-          {/* {store.getState().something.map((item, index) => (
-            <div>{item.ts}</div>
-          ))} */}
           <Button type="primary" className="bottom-btn" onClick={this.onPreview}>预览</Button>
           <Button type="primary" className="bottom-btn" onClick={this.onCode}>编码</Button>
           <Button type="primary" className="bottom-btn" onClick={this.onSave}>保存</Button>
         </footer>
+        <Modal title="编码" visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}
+          cancelText="取消" okText="确定 ">
+          <Code />
+        </Modal>
       </section>
     );
   }
