@@ -12,20 +12,35 @@ const options = {
   readOnly: true                          //只读
 }
 
-const code = `
-  import React, { Component } from "react";
+const funs = [
+  {funName: 'handleClick()', funBody: 'console.log("i am handleClick")'},
+  {funName: 'handleChange()', funBody: 'console.log("i am handleChange")'},
+  {funName: 'handleSubmit()', funBody: 'console.log("i am handleSubmit")'}
+]
 
-  class ReactComponent extends Component {
-    constructor (props) {
-      super(props);
-      this.state = {};
-    }
-    render () {
-      return (
-        <div>hello world</div>
-      )
-    }
+let doms = ``;
+
+funs.forEach(item => {
+   doms += `${item.funName} {
+    ${item.funBody}
   }
+  `
+})
+
+const code = `import React, { Component } from "react";
+
+class ReactComponent extends Component {
+  constructor (props) {
+    super(props);
+    this.state = {};
+  }
+  ${doms}
+  render () {
+    return (
+      <div>hello world</div>
+    )
+  }
+}
 `
 
 class Code extends Component {
