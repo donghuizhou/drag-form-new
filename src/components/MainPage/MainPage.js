@@ -5,7 +5,8 @@ import { Button, Modal } from 'antd';
 import './mainPage.css';
 import Canvas from '../Canvas/Canvas';
 import SideList from '../SideList/SideList';
-import Code from '../Code/Code'
+import Code from '../Code/Code';
+import Preview from '../Preview/Preview';
 import store from '../../redux/store';
 import { updateSomething, updateCurActiveTab } from '../../redux/actions';
 import { connect } from 'react-redux';
@@ -14,22 +15,30 @@ class MainPage extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      visible: false
+      codeVisiable: false,
+      previewVisiable: false
     }
   }
   onPreview = () => {
+    this.setState({previewVisiable: true})
   }
   onCode = () => {
-    this.setState({visible: true})
+    this.setState({codeVisiable: true})
   }
   onSave = () => {
     console.log(store.getState());
   }
-  handleOk = () => {
-    this.setState({visible: false})
+  handleCodeOk = () => {
+    this.setState({codeVisiable: false})
   }
-  handleCancel = () => {
-    this.setState({visible: false})
+  handleCodeCancel = () => {
+    this.setState({codeVisiable: false})
+  }
+  handlePreviewOk = () => {
+    this.setState({previewVisiable: false})
+  }
+  handlePreviewCancel = () => {
+    this.setState({previewVisiable: false})
   }
   render() {
     return (
@@ -43,9 +52,13 @@ class MainPage extends Component {
           <Button type="primary" className="bottom-btn" onClick={this.onCode}>编码</Button>
           <Button type="primary" className="bottom-btn" onClick={this.onSave}>保存</Button>
         </footer>
-        <Modal title="编码" visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}
+        <Modal title="编码" visible={this.state.codeVisiable} onOk={this.handleCodeOk} onCancel={this.handleCodeCancel}
           cancelText="取消" okText="确定 ">
           <Code />
+        </Modal>
+        <Modal width={'80%'} title="预览" visible={this.state.previewVisiable} onOk={this.handlePreviewOk} onCancel={this.handlePreviewCancel}
+          cancelText="取消" okText="确定 ">
+          {this.state.previewVisiable ? <Preview/> : null}
         </Modal>
       </section>
     );

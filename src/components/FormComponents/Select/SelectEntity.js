@@ -23,7 +23,7 @@ class SelectEntity extends Component {
         <FormItem {...formItemLayout} label={this.props.label}>
           <Select value={this.props.value}>
             {this.props.options.map(item => 
-              <Option value={item.key}>{item.vlaue}</Option>
+              <Option value={item.value}>{item.label}</Option>
             )}
           </Select>
         </FormItem>

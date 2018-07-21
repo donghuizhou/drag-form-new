@@ -17,7 +17,6 @@ class TableAreaEntity extends Component {
         title: item,
         key: index + ''
       }
-      console.log(column)
       columns.push(column)
     })
     return (
