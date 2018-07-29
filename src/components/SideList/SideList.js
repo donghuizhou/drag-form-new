@@ -14,8 +14,6 @@ import SelectSource from '../FormComponents/Select/SelectSource';
 
 const TabPane = Tabs.TabPane;
 
-let prevId = store.getState().curActiveItem.id || 'null'
-
 class SideList extends Component {
   tabChange = (key) => {
     if (key === 'component-list') {
@@ -23,8 +21,6 @@ class SideList extends Component {
     }
   }
   render () {
-    let rerender = false
-
     return (
       <div style={{ width: '300px', border: '1px solid #eee', overflowY: 'auto' }}>
         <Tabs onChange={this.tabChange} activeKey={store.getState().curActiveTab}>

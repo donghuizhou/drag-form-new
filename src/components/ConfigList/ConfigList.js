@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import store from '../../redux/store';
-import { updateFormJson, updateCurActiveTab } from '../../redux/actions';
-import { Form, Input, Tooltip, Icon, Select, Row, Col, Checkbox, Button, Radio } from 'antd';
+import { updateFormJson, updateFuncs } from '../../redux/actions';
+import { Form, Input, Select, Button } from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-const RadioGroup = Radio.Group;
 
 function updateJson (id, newAttr, obj) {
   obj.forEach(item => {
@@ -36,6 +35,14 @@ class ConfigList extends Component {
   handleSubmit = () => {
     let formJson = [].concat(store.getState().formJson);
     updateJson(this.state.formValues.id, this.state.formValues, formJson)
+    if (Object.keys(this.state.formValues).includes('clickFunName')) {
+      let funcs = [].concat(store.getState().funcs);
+      if (!funcs.some(item => item.name === this.state.formValues.clickFunName)) {
+        let fun = { name: this.state.formValues.clickFunName, cont: '' };
+        funcs.push(fun);
+        store.dispatch(updateFuncs(funcs));
+      }
+    }
     store.dispatch(updateFormJson(formJson));
   }
   shouldComponentUpdate () {
