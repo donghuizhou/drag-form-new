@@ -20,6 +20,8 @@ const componentsMap = {
   Select: SelectEntity
 }
 
+
+
 class InnerViewBefore extends Component {
   stringBecomeArray = (num) => {
     let arr = []

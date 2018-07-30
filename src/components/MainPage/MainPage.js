@@ -27,10 +27,7 @@ class MainPage extends Component {
   onSave = () => {
     console.log(store.getState());
   }
-  handleCodeOk = () => {
-    this.setState({codeVisiable: false})
-  }
-  handleCodeCancel = () => {
+  handleCloseCode = () => {
     this.setState({codeVisiable: false})
   }
   handlePreviewOk = () => {
@@ -51,9 +48,8 @@ class MainPage extends Component {
           <Button type="primary" className="bottom-btn" onClick={this.onCode}>编码</Button>
           <Button type="primary" className="bottom-btn" onClick={this.onSave}>保存</Button>
         </footer>
-        <Modal title="编码" visible={this.state.codeVisiable} onOk={this.handleCodeOk} onCancel={this.handleCodeCancel}
-          cancelText="取消" okText="确定 ">
-          <Code />
+        <Modal title="编码" visible={this.state.codeVisiable} footer={null}>
+          {this.state.codeVisiable ? <Code closeCode={this.handleCloseCode} /> : null}
         </Modal>
         <Modal width={'80%'} title="预览" visible={this.state.previewVisiable} onOk={this.handlePreviewOk} onCancel={this.handlePreviewCancel}
           cancelText="取消" okText="确定 ">
