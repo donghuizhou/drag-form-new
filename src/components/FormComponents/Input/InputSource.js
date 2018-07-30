@@ -26,4 +26,4 @@ class InputSource extends Component {
   }
 }
 
-export default DragSource(ItemTypes.DRAGFORM, dragSource, dragCollect)(InputSource);
+export default DragSource(ItemTypes.CONTAINER, dragSource, dragCollect)(InputSource);

@@ -13,14 +13,23 @@ const canvasTarget = {
   drop (props, monitor, component) {
     const { name } = monitor.getItem();
     component.receiveDropName(name);
+  },
+  canDrop (props, monitor) {
+    let item = monitor.getItem().name;
+    return item === 'SearchArea' || item === 'ButtonArea' || item === 'TableArea';
   }
 };
 
 function collect (connect, monitor) {
   return {
-    connectDropTarget: connect.dropTarget()
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
+    canDrop: monitor.canDrop()
   }
 }
+
+const bgGreen = {  background: 'green', opacity: '0.3', height: '100%' };
+const bgRed = {  background: 'red', opacity: '0.3', height: '100%' };
 
 class Canvas extends Component {
   constructor (props) {
@@ -62,82 +71,6 @@ class Canvas extends Component {
         formJson.push(tmp);
         store.dispatch(updateFormJson(formJson));
         break;  
-      case 'Button':
-        formJson.forEach((item) => {
-          if (item.type === 'ButtonArea') {
-            let length = item.children.length;
-            if (length > 0) {
-              length = ++item.children[length - 1]['attrs']['id'].split('-')[2]
-            }
-            tmp = { 
-              type: name, 
-              attrs: {
-                id: `buttonArea-button-${length}`,
-                formType: 'button',
-                value: '按钮',
-                type: 'primary',
-                size: 'default',
-                clickFunName: 'clickFun'
-              },
-              children: [] 
-            };
-            item.children.push(tmp); 
-          }
-        });
-        store.dispatch(updateFormJson(formJson));
-        break;  
-      case 'Input':
-        formJson.forEach((item) => {
-          if (item.type === 'SearchArea' && item.attrs.rows * item.attrs.columns === item.children.length) { message.error('搜索区域已满'); return; }
-          if (item.type === 'SearchArea' && item.attrs.rows * item.attrs.columns !== item.children.length) { 
-            let length = item.children.length;
-            if (length > 0) {
-              length = ++item.children[length - 1]['attrs']['id'].split('-')[2]
-            }
-            tmp = { 
-              type: name, 
-              attrs: {
-                id: `searchArea-input-${length}`,
-                formType: 'input',
-                value: '',
-                label: 'label'
-              },
-              children: [] 
-            };
-            item.children.push(tmp); 
-          }
-        });
-        store.dispatch(updateFormJson(formJson));
-        break;
-      case 'Select':
-        formJson.forEach((item) => {
-          if (item.type === 'SearchArea' && item.attrs.rows * item.attrs.columns === item.children.length) { message.error('搜索区域已满'); return; }
-          if (item.type === 'SearchArea' && item.attrs.rows * item.attrs.columns !== item.children.length) { 
-            let length = item.children.length;
-            if (length > 0) {
-              length = ++item.children[length - 1]['attrs']['id'].split('-')[2]
-            }
-            tmp = { 
-              type: name, 
-              attrs: {
-                id: `searchArea-select-${length}`,
-                formType: 'select',
-                value: '',
-                label: 'label',
-                options: [
-                  {label: '请选择', value: ''},
-                  {label: 'option1', value: 'option1'},                  
-                  {label: 'option2', value: 'option2'},       
-                  {label: 'option3', value: 'option3'}                  
-                ]
-              },
-              children: [] 
-            };
-            item.children.push(tmp); 
-          }
-        });
-        store.dispatch(updateFormJson(formJson));
-        break; 
     }
   }
   rowsChange = (e) => {
@@ -158,13 +91,13 @@ class Canvas extends Component {
     this.setState({gridModalVisible: false});
   }
   render () {
-    const { connectDropTarget } = this.props;
+    const { connectDropTarget, isOver, canDrop } = this.props;
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 8 }
     };
     return connectDropTarget(
-      <div style={{ display: 'relative', flex: 1, margin: '0 15px 0 0', border: '1px dashed #BEBEBE', overflowY: 'auto' }}>
+      <div style={{ position: 'relative', flex: 1, margin: '0 15px 0 0', border: '1px dashed #BEBEBE', overflowY: 'auto' }}>
         <Modal title="设置栅格布局" visible={this.state.gridModalVisible} onOk={this.handleOk} onCancel={this.handleCancel} cancelText={'取消'} okText={'确定'} >
           <Form layout="inline">
             <FormItem {...formItemLayout} label="行">
@@ -176,6 +109,8 @@ class Canvas extends Component {
           </Form>
         </Modal>
         <InnerView />
+        {isOver && canDrop && <div style={bgGreen}> </div>}
+        {isOver && !canDrop && <div style={bgRed}> </div>}
       </div>
     );
   }

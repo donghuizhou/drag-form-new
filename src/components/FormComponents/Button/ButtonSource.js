@@ -26,4 +26,4 @@ class ButtonSource extends Component {
   }
 }
 
-export default DragSource(ItemTypes.DRAGFORM, dragSource, dragCollect)(ButtonSource);
+export default DragSource(ItemTypes.CONTAINER, dragSource, dragCollect)(ButtonSource);

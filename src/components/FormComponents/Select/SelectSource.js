@@ -26,4 +26,4 @@ class SelectSource extends Component {
   }
 }
 
-export default DragSource(ItemTypes.DRAGFORM, dragSource, dragCollect)(SelectSource);
+export default DragSource(ItemTypes.CONTAINER, dragSource, dragCollect)(SelectSource);

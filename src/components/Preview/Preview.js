@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import store from '../../redux/store';
 import { connect } from 'react-redux';
 import { Button, Form, Input, Select, Table, Row, Col } from 'antd';
-import { POINT_CONVERSION_COMPRESSED } from 'constants';
 
 const FormItem = Form.Item;
 const Option = Select.Option;

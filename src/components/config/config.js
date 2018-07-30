@@ -1,4 +1,4 @@
 export const ItemTypes = {
   DRAGFORM: 'dragform',
-  SEARCHAREA: 'searchArea'
+  CONTAINER: 'container'
 };
