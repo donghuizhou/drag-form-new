@@ -5,10 +5,6 @@ import { Button, Form, Input, Select, Table, Row, Col } from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-const formElementsMap = {
-  Input,
-  Select
-}
 const formItemLayout = {
   labelCol: { span: 7 },
   wrapperCol: { span: 16 }

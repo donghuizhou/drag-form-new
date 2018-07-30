@@ -1,7 +1,7 @@
 export const UPDATE_FORM_JSON = 'UPDATE_FORM_JSON';
 export const UPDATE_CUR_ACTIVE_ITEM = 'UPDATE_CUR_ACTIVE_ITEM';
 export const UPDATE_CUR_ACTIVE_TAB = 'UPDATE_CUR_ACTIVE_TAB';
-export const UPDATE_SOMETHING = 'UPDATE_SOMETHING'
+export const UPDATE_FUNCS = 'UPDATE_FUNCS';
 
 export function updateFormJson (item) {
   return {
@@ -24,9 +24,9 @@ export function updateCurActiveTab (item) {
   }
 }
 
-export function updateSomething (item) {
+export function updateFuncs (item) {
   return {
-    type: UPDATE_SOMETHING,
+    type: UPDATE_FUNCS,
     payload: item
   }
 }

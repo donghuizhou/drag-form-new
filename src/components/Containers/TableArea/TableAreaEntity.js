@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Divider } from 'antd';
+import { Table } from 'antd';
 import store from '../../../redux/store';
 import { updateCurActiveItem, updateCurActiveTab } from '../../../redux/actions';
 import './tableStyle.css';

@@ -8,7 +8,6 @@ import SideList from '../SideList/SideList';
 import Code from '../Code/Code';
 import Preview from '../Preview/Preview';
 import store from '../../redux/store';
-import { updateSomething, updateCurActiveTab } from '../../redux/actions';
 import { connect } from 'react-redux';
 
 class MainPage extends Component {

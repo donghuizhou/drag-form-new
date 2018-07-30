@@ -1,13 +1,13 @@
 import { UPDATE_FORM_JSON, 
          UPDATE_CUR_ACTIVE_ITEM, 
          UPDATE_CUR_ACTIVE_TAB,
-         UPDATE_SOMETHING } from './actions';
+         UPDATE_FUNCS } from './actions';
 
 const initState = {
   formJson: [],
   curActiveItem: {},
   curActiveTab: 'component-list',
-  something: []
+  funcs: []
 }
 
 export function updateStateReducer (state =initState, action) {
@@ -23,11 +23,11 @@ export function updateStateReducer (state =initState, action) {
     case UPDATE_CUR_ACTIVE_TAB:
       return Object.assign({}, state, {
         curActiveTab: action.payload
-      });
-    case UPDATE_SOMETHING:
-      return Object.assign({}, state, {
-        something: action.payload
       });  
+    case UPDATE_FUNCS:
+      return Object.assign({}, state, {
+        funcs: action.payload
+      });
     default:
       return state;
   }

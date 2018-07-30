@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import store from '../../redux/store'
+import store from '../../redux/store';
 import CodeMirror from 'react-codemirror';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/monokai.css'; 
@@ -10,13 +10,13 @@ const options = {
   extraKeys: {"Ctrl": "autocomplete"},    //自动提示配置  
   theme: "monokai",                       //选中的theme  
   readOnly: true                          //只读
-}
+};
 
 const funs = [
   {funName: 'handleClick()', funBody: 'console.log("i am handleClick")'},
   {funName: 'handleChange()', funBody: 'console.log("i am handleChange")'},
   {funName: 'handleSubmit()', funBody: 'console.log("i am handleSubmit")'}
-]
+];
 
 let doms = ``;
 
@@ -25,7 +25,7 @@ funs.forEach(item => {
     ${item.funBody}
   }
   `
-})
+});
 
 const code = `import React, { Component } from "react";
 
@@ -47,18 +47,18 @@ class Code extends Component {
   constructor (props) {
     super(props);
     this.state = {
-    }
+    };
   }
   showCode = () => {
-    let code = 'a' + '\n' + 'b'
-    return code
+    let code = 'a\nb';
+    return code;
   }
   render () {
     return (
       <div>
         <CodeMirror ref="codemirror" value={code} options={options} />
       </div>
-    ) 
+    );
   }
 }
 

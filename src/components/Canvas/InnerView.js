@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import store from '../../redux/store';
 import { connect } from 'react-redux'
-import { Input, Modal, Form, Row, Col, message } from 'antd';
+import { Row, Col } from 'antd';
 // 容器组件的Target
 import SearchAreaTarget from '../Containers/SearchArea/SearchAreaTarget';
 import ButtonAreaTarget from '../Containers/ButtonArea/ButtonAreaTarget';
