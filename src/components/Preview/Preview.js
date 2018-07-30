@@ -2,24 +2,19 @@ import React, { Component } from 'react';
 import store from '../../redux/store';
 import { connect } from 'react-redux';
 import { Button, Form, Input, Select, Table, Row, Col } from 'antd';
+import { POINT_CONVERSION_COMPRESSED } from 'constants';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const formItemLayout = {
   labelCol: { span: 7 },
   wrapperCol: { span: 16 }
-}
+};
 
 class Preview extends Component {
   constructor (props) {
     super(props)
     this.state = {}
-  }
-  componentDidMount () {
-    console.log('componentDidMount')
-  }
-  componentDidUpdate () {
-    console.log('componentDidUpdate')
   }
   stringBecomeArray = (num) => {
     let arr = []
@@ -36,17 +31,21 @@ class Preview extends Component {
         key: index + ''
       }
       columns.push(column)
-    })
+    });
     return columns;
   }
   showPreview () {
+    let funcCollections = {};
+    store.getState().funcs.forEach(item => {
+      funcCollections[item.name] = new Function(item.cont);
+    });
     var formJson = store.getState().formJson;
     if (formJson.length) {
       return formJson.map(container => {
         if (container.type === 'ButtonArea') {
           return (<div>
             {container.children.map(child => {
-              return <Button size={child.attrs.size} type={child.attrs.type} style={{marginRight: '10px'}}>{child.attrs.value}</Button>
+              return <Button size={child.attrs.size} type={child.attrs.type} onClick={funcCollections[child.attrs.clickFunName]} style={{marginRight: '10px'}}>{child.attrs.value}</Button>
             })}
           </div>)
         } else if (container.type === 'TableArea') {
@@ -59,7 +58,6 @@ class Preview extends Component {
               return <Row key={rowIndex}>
                 {this.stringBecomeArray(container.attrs.columns).map((column, colIndex) => {
                   const index = container.attrs.columns * rowIndex + colIndex;
-                  // const formType = container.children[index] ? formElementsMap[container.children[index].type] : null;
                   const formElement = container.children[index]
                   if (formElement && formElement.type === 'Input') {
                     return <Col span={24 / container.attrs.columns} key={colIndex}>
@@ -77,8 +75,7 @@ class Preview extends Component {
                         </Select>
                       </FormItem>
                     </Col>
-                  }
-                  // return <Col span={24 / container.attrs.columns} key={colIndex}>{FormElement ? <FormElement {...container.children[index].attrs} /> : null}</Col>                  
+                  }                
                 })}
               </Row>
             })}

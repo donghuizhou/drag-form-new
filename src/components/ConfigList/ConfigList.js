@@ -40,7 +40,7 @@ class ConfigList extends Component {
       if (!funcs.some(item => item.name === this.state.formValues.clickFunName)) {
         let fun = { name: this.state.formValues.clickFunName, cont: 
 `
-It is ${Date.parse(new Date()) / 1000} now
+console.log('hello world')
 ` };
         funcs.push(fun);
         store.dispatch(updateFuncs(funcs));
