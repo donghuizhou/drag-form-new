@@ -28,8 +28,8 @@ function collect (connect, monitor) {
   }
 }
 
-const bgGreen = {  background: 'green', opacity: '0.3', height: '100%' };
-const bgRed = {  background: 'red', opacity: '0.3', height: '100%' };
+const bgGreen = { background: 'green', opacity: '0.3', height: '100%' };
+const bgRed = { background: 'red', opacity: '0.3', height: '100%' };
 
 class Canvas extends Component {
   constructor (props) {
