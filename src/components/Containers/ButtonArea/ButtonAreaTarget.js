@@ -3,6 +3,7 @@ import { DropTarget } from 'react-dnd';
 import { ItemTypes } from '../../config/config';
 import store from '../../../redux/store';
 import { updateFormJson } from '../../../redux/actions';
+import './buttonArea.css';
 
 const dropTarget = {
   drop (props, monitor, component) {

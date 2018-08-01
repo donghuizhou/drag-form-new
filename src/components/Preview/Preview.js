@@ -33,6 +33,20 @@ class Preview extends Component {
     });
     return columns;
   }
+  formatOptions = (opts) => {
+    let options = opts.split('\n');
+    let result = [
+      {label: '请选择', value: ''}
+    ];
+    options.forEach(item => {
+      let tmp = {
+        label: item.split(':')[1],
+        value: item.split(':')[0]
+      }
+      result.push(tmp);
+    })
+    return result;
+  }
   showPreview () {
     let funcCollections = {};
     store.getState().funcs.forEach(item => {
@@ -61,14 +75,16 @@ class Preview extends Component {
                   if (formElement && formElement.type === 'Input') {
                     return <Col span={24 / container.attrs.columns} key={colIndex}>
                       <FormItem {...formItemLayout} label={formElement.attrs.label}>
-                        <Input value={formElement.attrs.value} />
+                        {/* <Input value={formElement.attrs.value} /> */}
+                        <Input {...formElement.attrs} />
                       </FormItem>
                     </Col>
                   } else if (formElement && formElement.type === 'Select') {
                     return <Col span={24 / container.attrs.columns} key={colIndex}>
                       <FormItem {...formItemLayout} label={formElement.attrs.label}>
-                        <Select value={formElement.attrs.value}>
-                          {formElement.attrs.options.map(options => 
+                        {/* <Select value={formElement.attrs.value}> */}
+                        <Select {...formElement.attrs}>
+                          {this.formatOptions(formElement.attrs.options).map(options => 
                             <Option value={options.value}>{options.label}</Option>
                           )}
                         </Select>

@@ -17,12 +17,26 @@ class SelectEntity extends Component {
     store.dispatch(updateCurActiveTab('component-config'));
     store.dispatch(updateCurActiveItem(attributes));
   }
+  formatOptions = (opts) => {
+    let options = opts.split('\n');
+    let result = [
+      {label: '请选择', value: ''}
+    ];
+    options.forEach(item => {
+      let tmp = {
+        label: item.split(':')[1],
+        value: item.split(':')[0]
+      }
+      result.push(tmp);
+    })
+    return result;
+  }
   render () {
     return (
       <div className="inputWrap" onClick={this.selectWrapClick}>
         <FormItem {...formItemLayout} label={this.props.label}>
           <Select value={this.props.value}>
-            {this.props.options.map(item => 
+            {this.formatOptions(this.props.options).map(item => 
               <Option value={item.value}>{item.label}</Option>
             )}
           </Select>

@@ -44,7 +44,8 @@ class SearchAreaTarget extends Component {
                 id: `searchArea-input-${length}`,
                 formType: 'input',
                 value: '',
-                label: 'label'
+                label: 'label',
+                disabled: false
               },
               children: [] 
             };
@@ -68,12 +69,8 @@ class SearchAreaTarget extends Component {
                 formType: 'select',
                 value: '',
                 label: 'label',
-                options: [
-                  {label: '请选择', value: ''},
-                  {label: 'option1', value: 'option1'},                  
-                  {label: 'option2', value: 'option2'},       
-                  {label: 'option3', value: 'option3'}                  
-                ]
+                options: 'option1:option1\noption2:option2\noption3:option3',
+                disabled: false
               },
               children: [] 
             };
