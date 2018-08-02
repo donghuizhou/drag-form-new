@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
 // import { connect } from 'react-redux';
 import { ItemTypes } from '../config/config'
-import { Input, Modal, Form, message } from 'antd';
+import { Input, Modal, Form, message, Select, Button } from 'antd';
 import store from '../../redux/store';
 import { updateFormJson } from '../../redux/actions';
 import InnerView from './InnerView';

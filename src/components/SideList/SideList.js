@@ -11,6 +11,11 @@ import TableAreaSource from '../Containers/TableArea/TableAreaSource';
 import ButtonSource from '../FormComponents/Button/ButtonSource';
 import InputSource from '../FormComponents/Input/InputSource';
 import SelectSource from '../FormComponents/Select/SelectSource';
+import RadioSource from '../FormComponents/Radio/RadioSource';
+import CheckboxSource from '../FormComponents/Checkbox/CheckboxSource';
+import DatePickerSource from '../FormComponents/DatePicker/DatePickerSource';
+import TextAreaSource from '../FormComponents/TextArea/TextAreaSource';
+import DateRangeSource from '../FormComponents/DateRange/DateRangeSource';
 
 const TabPane = Tabs.TabPane;
 
@@ -34,6 +39,11 @@ class SideList extends Component {
               <InputSource />
               <SelectSource />
               <ButtonSource />
+              <RadioSource />
+              <CheckboxSource />
+              <DatePickerSource />
+              <TextAreaSource />
+              <DateRangeSource />
             </section>
           </TabPane>
           <TabPane tab="组件配置" key="component-config">
